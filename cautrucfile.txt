@@ -1,0 +1,6 @@
+controllers
+services : trỏ đến server 
+config :  cấu hình các tham số
+views : chứa các file htmll hay ..
+public: noi chứa các thư mục ra ngoài như ảnh css
+route : đường  link 

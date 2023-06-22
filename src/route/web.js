@@ -5,9 +5,11 @@ let router = express.Router();
 let initWebRouters = (app) => {
     router.get('/', homeController.getHomePage);
     router.get('/about', homeController.getTest);
-    router.get('/', (req, res) => {
-        return res.send("'hello world with Tam Tang !!!")
-    });
+    router.get('/crud', homeController.getCRUD);
+
+
+    router.post('/post-crud', homeController.postCRUD);
+
     return app.use("/", router);
 }
 

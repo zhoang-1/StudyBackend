@@ -13,7 +13,7 @@ let CreateNewUser = async (data) => {
                 lastName: data.LastName,
                 address: data.address,
                 phoneNumber: data.phonenumber,
-                gender: data.gender === '1'? true:false,
+                gender: data.gender === '1' ? true : false,
                 roleId: data.roleId,
             })
             resolve('ok! create a new user success!')
@@ -22,7 +22,7 @@ let CreateNewUser = async (data) => {
         }
     });
 
-  
+
 }
 let hashUserPassword = (password) => {
     return new Promise(async (resolve, reject) => {
@@ -35,20 +35,67 @@ let hashUserPassword = (password) => {
     });
 }
 
-let GetAlluser = ()=>{
-    return new Promise(async(resolve, reject) =>{
-        try{
+let GetAlluser = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
             let user = db.User.findAll({
-                raw:true,
+                raw: true,
             });
             resolve(user);
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
 }
 
+let getUserInfoById = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: userId },
+                raw: true,
+            })
+            if (user) {
+                resolve(user)
+            } else {
+                resolve([])
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+
+let updateUserData = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: data.id }
+            })
+            if (user) {
+                user.firstName = data.firstName;
+                user.lastName = data.lastName;
+                user.address = data.address;
+
+                await user.save();
+
+                let allUsers = await db.User.findAll();
+                resolve(allUsers);
+            } else {
+                resolve();
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+
+
 module.exports = {
     CreateNewUser: CreateNewUser,
     GetAlluser: GetAlluser,
+    getUserInfoById: getUserInfoById,
+    updateUserData: updateUserData,
 }

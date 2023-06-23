@@ -34,7 +34,9 @@ let DisplayGetCRUD =async(req, res) =>{
     let data =await CRUDservice.GetAlluser();
     console.log('--------------');
     console.log(data);
-    return res.send('display get drud from controller');
+    return res.render('displayCRUD.ejs', {
+        dataTable:data
+    });
 }
 
 module.exports = {
